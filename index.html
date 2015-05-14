@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="resume.css">
+    <script>
+      // globals 
+      function getTextWidth(text) {
+        var canvas = document.createElement("canvas");
+        var ctx = canvas.getContext("2d");
+        ctx.font = "bold 11pt " + kFont;
+        return ctx.measureText(text).width;
+      }
+      var kIndentWidth = 50;
+      var kPageWidth = 786;
+      var kSpaceWidth = getTextWidth("M");
+      var kBackPadding = 75;
+      var kFont = "Times New Roman"
+    </script>
+  </head>
+  <body>
+    <div name="aboveline">
+      <table name = "heading">
+        <tr>
+          <td style="width:340px;">
+            <font size="5">
+              <b id="name">Resume Basic Info</b>
+            </font>
+          </td>
+          <td id="rightofname">
+            <img class="spinner" src="spinner.gif">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a id="email" style="text-decoration: none"></a>
+          </td>
+          <td id="addr1" style="width:230px;"></td>
+        </tr>
+        <tr>
+          <td id="phone"></td>
+          <td id="addr2"></td>
+      </table>
+    </div>
+    <hr class="top" />
+    <hr class="bot" />
+    <div class="belowline">
+      <b>Education</b>
+      <div id="edu_fields" class="fields">
+      </div>
+      <b>Experience</b>
+      <div id="exp_fields" class="fields">
+      </div>
+      <b>Skills</b>
+      <div id="skill_fields" class="fields">
+      </div>
+      <b>Activities</b>
+      <div id="activity_fields" class="fields">
+      </div>
+      <b>Honors</b>
+      <div id="honor_fields" class="fields">
+      </div>
+    </div>
+    <script src="js/jquery-1.10.2.js"></script>
+    <script src="js/jquery-ui-1.11.4.js"></script>
+    <script src="js/handlebars.js"></script>
+    <script src="js/util.js"></script>
+
+    <!-- Handlebars templates before our buisness logic-->
+    <script id="university-template" type="text/x-handlebars-template">
+    <div class="edu_field field">
+    <p>
+        <b>{{school}}</b>, {{city}}, {{state}}
+        <span>{{graduation}}</span>
+      </p>
+      <p>{{college}} - {{degree}} - GPA: {{gpa}}</p>
+      {{#if minor}}
+      <p>Minor: {{minor}}</p>
+      {{/if}}
+      </div>
+    </script>
+
+    <script id="secondary-template" type="text/x-handlebars-template">
+    <div class="field">
+      <p>
+        <b>{{school}}</b>, {{city}}, {{state}}
+        <span>{{graduation}}</span>
+      </p>
+      <p>Secondary School - GPA: {{gpa}}
+      </div>
+    </script>
+
+    <script id="exp-template" type="text/x-handlebars-template">
+      <div class="field">
+        <p>
+          <b>{{org}}</b>&nbsp;&nbsp;{{city}}, {{state}}
+          <span>{{start}} - {{end}}</span>
+        </p>
+        <p><i>{{position}}</i></p>
+        <ul>
+        {{#each desc}}
+        <li>{{this}}</li>
+        {{/each}}
+        </ul>
+      </div>
+    </script>
+
+    <script id="skill-template" type="text/x-handlebars-template">
+      <div class="skill">
+        <table>
+        <tr><td><b>{{name}}:</b></td>
+        {{#each desc}}
+          {{#if @index}}
+            <tr><td></td>
+          {{/if}}
+          <td>{{this}}</td></tr>
+        {{/each}}
+        </table>
+      </div>
+    </script>
+
+    <script id="activity-1line-template" type="text/x-handlebars-template">    
+      <div class="tightfield">
+        {{org}}: {{positions.0.name}}
+        <span>{{positions.0.start}}
+        {{#if positions.0.end}} - {{positions.0.end}}{{/if}}
+        </span>
+      </div>
+    </script>
+
+    <script id="activity-template" type="text/x-handlebars-template">    
+      <div class="tightfield">
+      {{org}}
+      {{#if start}}
+      <span>{{start}}{{#if end}} - {{end}}{{/if}}</span>
+      {{/if}}
+      {{#each positions}}
+      <div class="position">
+        {{name}}
+        {{#if start}}
+          <span>{{start}}{{#if end}} - {{end}}{{/if}}</span>
+        {{/if}}
+      </div>
+      {{/each}}
+      </div>
+    </script>
+
+    <script id="honor-template" type="text/x-handlebars-template">
+      <div class="tightfield" style="width:{{field_width}};">
+        <div class="honorname" style="width:{{name_width}};"><b>{{name}}</b></div>
+        <div class="honorspace" style="width:{{space_width}};"></div>
+        <div class="honordescription" style="width:{{desc_width}};">{{desc}}</div>
+      </div>
+    </script>
+
+    <script id="honor-with-date" type="text/x-handlebars-template">
+      <div class="tightfield" style="width:{{field_width}};">
+        <b>{{name}}</b>
+        <span>{{#each dates}}{{#if @index}}, {{/if}}{{this}}{{/each}}</span>
+      </div>
+    </script>
+
+    <script>
+      function fillResume(json) {
+        // set up basic info
+        var basic = json["basic"];
+        $("#name")[0]["innerText"] = basic["name"];
+        $("#email")[0]["innerText"] = basic["email"];
+        $("#email")[0]["href"] = "mailto:" + basic["email"];
+        $("#phone")[0]["innerText"] = basic["phone"];
+        $("#addr1")[0]["innerText"] = basic["addr1"];
+        var addr2 = basic["city"] + ", " + basic["state"] + ", " + basic["zip"];
+        $("#addr2")[0]["innerText"] = addr2;
+
+        // Add all educations
+        json["education"].forEach(function(school){
+          if (school.hasOwnProperty("hidden") && school["hidden"] === true) {
+            return;
+          }
+          var school_html = null;
+          if (school["type"] === "university") {
+            school_html = university_template(school);
+          }
+          else if (school["type"] === "secondary") {
+            school_html = secondary_template(school);
+          }
+          else {
+            alert("school type error for: " + school["school"]);
+          }
+          $("#edu_fields").append(school_html);          
+        })
+
+        // Add all experiences
+        json["experience"].forEach(function(exp){
+          if (exp.hasOwnProperty("hidden") && exp["hidden"] === true) {
+            return;
+          }
+          var experience_html = experience_template(exp);
+          $("#exp_fields").append(experience_html);
+        })
+
+        // Add all skills
+        json["skills"].forEach(function(skill){
+          if (skill.hasOwnProperty("hidden") && skill["hidden"] === true) {
+            return;
+          }
+          var skill_html = skill_template(skill);
+          $("#skill_fields").append(skill_html);
+        })
+
+        // Add all activities
+        json["activities"].forEach(function(act){
+          if (act.hasOwnProperty("hidden") && act["hidden"] === true) {
+            return;
+          }
+
+          // Make sure hidden positions are taken into account
+          // when we decide which template to use
+          // do this by just recreating the activity
+          function withoutHiddenPositions(activity) {
+            var new_act = JSON.parse(JSON.stringify(activity))
+            new_act["positions"] = [];
+
+            for (var i = 0; i < activity["positions"].length; ++i) {
+              var position = activity["positions"][i]
+              if (!position.hasOwnProperty("hidden") || 
+                  position["hidden"] === false) {
+                new_act["positions"].push(position);
+              }
+            }
+            return new_act;
+          }
+          act = withoutHiddenPositions(act);
+
+          var activity_html = null;
+          if (act["positions"].length === 1 && !act.hasOwnProperty("start")) {
+            activity_html = activity_1line_template(act);
+          }
+          else {
+            activity_html = activity_template(act);
+          }
+          $("#activity_fields").append(activity_html);
+        })
+
+        // Add all honors
+        json["honors"].forEach(function(honor){
+          if (honor.hasOwnProperty("hidden") && honor["hidden"] === true) {
+            return;
+          }
+
+          honor["field_width"] = kPageWidth - kIndentWidth;
+
+          name_width = getTextWidth(honor["name"]) + 1
+          desc_width = kPageWidth - kIndentWidth - kSpaceWidth -
+                       kBackPadding - name_width;
+          console.log(name_width + desc_width);
+          if (desc_width === NaN || desc_width < 10) {
+            alert("honor description width error");
+          }
+          honor["name_width"] = name_width + "px";
+          honor["desc_width"] = desc_width + "px";
+          honor["space_width"] = kSpaceWidth + "px";
+          honor_html = null;
+          if (honor.hasOwnProperty("dates")) {
+            honor_html = honor_dates_template;
+          } else{
+            honor_html = honor_template(honor);
+          }
+          $("#honor_fields").append(honor_html);
+        })
+
+        // remove the spinner because we're done?!?
+        $(".spinner").remove();
+      };
+
+      // compile handlebars templates
+      var university_template = Handlebars.compile(
+        $("#university-template").html());
+      var secondary_template = Handlebars.compile(
+        $("#secondary-template").html());
+      var experience_template = Handlebars.compile(
+        $("#exp-template").html());
+      var skill_template = Handlebars.compile(
+        $("#skill-template").html());
+      var activity_1line_template = Handlebars.compile(
+        $("#activity-1line-template").html());
+      var activity_template = Handlebars.compile(
+        $("#activity-template").html());
+      var honor_template = Handlebars.compile(
+        $("#honor-template").html());
+      var honor_dates_template = Handlebars.compile(
+        $("#honor-with-date").html());
+
+      $(".belowline").css({"width": kPageWidth + "px"});
+
+      $.getJSON("./resume.json", fillResume);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,37 @@
+
+div{font-size:11pt}
+.field{margin:.6em 0 0 50px;}
+.fields{margin:0 0 .6em 0;}
+.honordescription{float:left;}
+.honorname{float:left;}
+.honorspace{
+  float:left;
+  height:1em;
+  width:1em;
+}
+.position{margin:0 0 0 20px}
+.skill{margin:0 0 0 50px;}
+.tightfield{
+  margin: 0 0 0 50px;
+  clear:both;
+}
+
+hr {margin:0 0 0 0;}
+.top{margin:5px 0 0 0;}
+.bot{margin: 0 0 4px 0;}
+
+p {
+  margin:0 0 0 0;
+  font-size:11pt;
+}
+
+span {
+  float:right;
+  font-size:11pt;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+ul {margin:0 0 0 0;font-size:11pt;}
