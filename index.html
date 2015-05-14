@@ -3,7 +3,7 @@
   <head>
     <link rel="stylesheet" type="text/css" href="resume.css">
     <script>
-      // globals 
+      // globals
       function getTextWidth(text) {
         var canvas = document.createElement("canvas");
         var ctx = canvas.getContext("2d");
@@ -93,7 +93,7 @@
       <div class="field">
         <p>
           <b>{{org}}</b>&nbsp;&nbsp;{{city}}, {{state}}
-          <span>{{start}} - {{end}}</span>
+          <span>{{start}}{{#if end}} - {{end}}{{/if}}</span>
         </p>
         <p><i>{{position}}</i></p>
         <ul>
@@ -118,7 +118,7 @@
       </div>
     </script>
 
-    <script id="activity-1line-template" type="text/x-handlebars-template">    
+    <script id="activity-1line-template" type="text/x-handlebars-template">
       <div class="tightfield">
         {{org}}: {{positions.0.name}}
         <span>{{positions.0.start}}
@@ -127,7 +127,7 @@
       </div>
     </script>
 
-    <script id="activity-template" type="text/x-handlebars-template">    
+    <script id="activity-template" type="text/x-handlebars-template">
       <div class="tightfield">
       {{org}}
       {{#if start}}
@@ -186,7 +186,7 @@
           else {
             alert("school type error for: " + school["school"]);
           }
-          $("#edu_fields").append(school_html);          
+          $("#edu_fields").append(school_html);
         })
 
         // Add all experiences
@@ -222,7 +222,7 @@
 
             for (var i = 0; i < activity["positions"].length; ++i) {
               var position = activity["positions"][i]
-              if (!position.hasOwnProperty("hidden") || 
+              if (!position.hasOwnProperty("hidden") ||
                   position["hidden"] === false) {
                 new_act["positions"].push(position);
               }
@@ -261,7 +261,7 @@
           honor["space_width"] = kSpaceWidth + "px";
           honor_html = null;
           if (honor.hasOwnProperty("dates")) {
-            honor_html = honor_dates_template;
+            honor_html = honor_dates_template(honor);
           } else{
             honor_html = honor_template(honor);
           }

@@ -22,11 +22,11 @@
         },
         {
             "school" : "Some high school",
-            "city" : "Tatooine",
-            "state" : "ORT",
+            "city" : "Real City",
+            "state" : "KT",
             "type" : "secondary",
             "gpa" : "5.00/4.00",
-            "graduation" : "June 2011",
+            "graduation" : "June 2011"
         }
     ],
     "experience" : [
@@ -58,7 +58,8 @@
             "position" : "Intern",
             "start" : "Summer 2014",
             "desc" : [
-                "I got coffee and watched people do some stuff."
+                "I got coffee and watched people do some stuff.",
+                "Mastered the art of hating Ohio"
             ]
         },
         {
@@ -73,7 +74,7 @@
                 "I still don't know where those eggs came from"
             ],
             "hidden" : true
-        },
+        }
     ],
     "skills" : [
         {
@@ -151,7 +152,8 @@
                 }
 
             ]
-        },
+        }
+    ],
     "honors" : [
         {
             "name" : "Best Cup of Coffee",
@@ -161,7 +163,7 @@
             "name" : "Alright kinda guy",
             "dates" : [
                 "Winter 2013", "Fall 2013", "Fall 2014"
-            ],
+            ]
         },
         {
             "name" : "Long description award",
