@@ -1,0 +1,171 @@
+{
+    "basic" : {
+        "name" : "Andy's Resume Example",
+        "email" : "amodell@umich.edu",
+        "phone" : "+1 555 555 5555",
+        "addr1" : "This is address line 1",
+        "city" : "Ann Arbor",
+        "state" : "MI",
+        "zip" : "48109"
+    },
+    "education" : [
+        {
+            "school" : "University of Michigan",
+            "city" : "Ann Arbor",
+            "state" : "MI",
+            "type" : "university",
+            "college" : "College of Resume",
+            "degree" : "BSE Making Json Resumes",
+            "gpa" : "1.234/4.000",
+            "graduation" : "May 2015",
+            "minor" : "Managing CSS rage"
+        },
+        {
+            "school" : "Some high school",
+            "city" : "Tatooine",
+            "state" : "ORT",
+            "type" : "secondary",
+            "gpa" : "5.00/4.00",
+            "graduation" : "June 2011",
+        }
+    ],
+    "experience" : [
+        {
+            "org" : "Great place to Work",
+            "city" : "Ann Arbor",
+            "state" : "MI",
+            "position" : "Hard worker!",
+            "start" : "May 2015",
+            "end" : "Present",
+            "desc" : [
+            ]
+        },
+        {
+            "org" : "Great place to Work",
+            "city" : "Ann Arbor",
+            "state" : "MI",
+            "position" : "Student Research Assistant",
+            "start" : "November 2014",
+            "end" : "May 2015",
+            "desc" : [
+                "I helped people work hard!"
+            ]
+        },
+        {
+            "org" : "Company Meh",
+            "city" : "Columbus",
+            "state" : "OH",
+            "position" : "Intern",
+            "start" : "Summer 2014",
+            "desc" : [
+                "I got coffee and watched people do some stuff."
+            ]
+        },
+        {
+            "org" : "Daycare LLC",
+            "city" : "Solaceon Town",
+            "state" : "Sinnoh",
+            "position" : "Day Care Man",
+            "start" : "April 2011",
+            "end" : "September 2011",
+            "desc" : [
+                "I stood outside the day care building and let people know when their poekmon had eggs",
+                "I still don't know where those eggs came from"
+            ],
+            "hidden" : true
+        },
+    ],
+    "skills" : [
+        {
+            "name" : "Flight",
+            "desc" : [
+                "You may not realize this, but flying isn't that hard",
+                "I've mastered the art of falling and missing the ground",
+                "I'm also pretty good at not thinking about it while it happens"
+            ]
+        },
+        {
+            "name" : "Falling",
+            "desc" : [
+                "I'm good at falling without breaking any bones"
+            ]
+        }
+    ],
+    "activities" : [
+        {
+            "org": "",
+            "positions" : [
+                {
+                    "name" : "",
+                    "start" : "",
+                    "end" : ""
+                }
+            ],
+            "hidden" : true
+        },
+        {
+            "org" : "Resume builders",
+            "positions" : [
+                {
+                    "name" : "Master resume builder",
+                    "start" : "January 2014",
+                    "end" : "May 2015"
+                },
+                {
+                    "name" : "Mandatory not-good-on-resume position for beginners",
+                    "start" : "January 2015",
+                    "end" : "March 2015",
+                    "hidden" : true
+                }
+            ]
+        },
+        {
+            "org": "Ninjas united",
+            "start" : "April 2012",
+            "end" : "December 2014",
+            "positions" : [
+                {
+                    "name" : "Young Grasshopper",
+                    "start" : "February 2013",
+                    "end" : "April 2014"
+                }
+            ]
+        },
+        {
+            "org": "The Super Great Party",
+            "positions" : [
+                {
+                    "name" : "Member",
+                    "start" : "October 2011",
+                    "end" : "April 2015"
+                },
+                {
+                    "name" : "Multiple Chair / Vice Chair positions",
+                    "start" : "January 2012",
+                    "end" : "April 2015"
+                },
+                {
+                    "name" : "Presidential Candidate",
+                    "start" : "March 2013",
+                    "end" : "December 2014"
+                }
+
+            ]
+        },
+    "honors" : [
+        {
+            "name" : "Best Cup of Coffee",
+            "desc" : "I made the best hipster coffee at the office"
+        },
+        {
+            "name" : "Alright kinda guy",
+            "dates" : [
+                "Winter 2013", "Fall 2013", "Fall 2014"
+            ],
+        },
+        {
+            "name" : "Long description award",
+            "desc" : "This award has a longer description.  Nobody really knows why it was formed, but it was really a pain to get this all to format correctly without looking like crap.  I probably spent as much time getting this to work than I did on any other aspect of this resume thing."
+        }
+    ]
+}
